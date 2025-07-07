@@ -1,4 +1,4 @@
-import { test, describe, expect, beforeEach } from '@playwright/test';
+import { test, describe, expect, beforeEach } from '@playwright/test'
 
 
 describe('Pokedex', () => {
