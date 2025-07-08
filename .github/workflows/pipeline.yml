@@ -10,7 +10,6 @@ on:
 
 jobs:
     simple_deployment:
-      if: ${{ github.event_name == 'push' }}
       runs-on: ubuntu-22.04 # Use Ubuntu 20.04 do not work anymore on GitHub Actions
       steps:
         - name: Checkout
