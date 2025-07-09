@@ -53,12 +53,12 @@ jobs:
               DEFAULT_BUMP: 'patch'
 
     notify:
+      if: github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip')
       needs: [simple_deployment, tag_release]
-      if: always()
       runs-on: ubuntu-latest
       steps:
         - name: Notify Discord - Success
-          if: needs.simple_deployment.result == 'success' && needs.tag_release.result == 'success' && github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip')
+          if: needs.simple_deployment.result == 'success' && needs.tag_release.result == 'success'
           uses: sarisia/actions-status-discord@v1
           with:
             webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
@@ -76,7 +76,7 @@ jobs:
             color: 0x00ff00
             
         - name: Notify Discord - Failure
-          if: (needs.simple_deployment.result == 'failure' || needs.tag_release.result == 'failure') && github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip')
+          if: needs.simple_deployment.result == 'failure' || needs.tag_release.result == 'failure'
           uses: sarisia/actions-status-discord@v1
           with:
             webhook: ${{ secrets.DISCORD_WEBHOOK_URL }}
