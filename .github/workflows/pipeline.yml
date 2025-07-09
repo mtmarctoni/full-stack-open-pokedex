@@ -68,11 +68,11 @@ jobs:
               A new version has been successfully deployed!
               
               **Version:** ${{ needs.tag_release.outputs.new_tag }}
-              **Commit:** ${GITHUB_SHA:0:7}
-              **Branch:** ${GITHUB_REF#refs/heads/}
+              **Commit:** ${{ github.sha }}
+              **Branch:** ${{ github.ref_name }}
               
-              [View Changes](https://github.com/${{ github.repository }}/compare/${GITHUB_SHA}~1...${GITHUB_SHA})
-            username: "Deployment Bot"
+              [View Changes](https://github.com/${{ github.repository }}/compare/${{ github.event.before }}...${{ github.sha }})
+            username: "GitHub Actions"
             color: 0x00ff00
             
         - name: Notify Discord - Failure
@@ -84,11 +84,11 @@ jobs:
             title: "❌ Deployment Failed"
             description: |
               **Failed Step:** ${{ needs.simple_deployment.result == 'failure' && 'Build/Test' || 'Tag Release' }}
-              **Commit:** ${GITHUB_SHA:0:7}
-              **Branch:** ${GITHUB_REF#refs/heads/}
+              **Commit:** ${{ github.sha }}
+              **Branch:** ${{ github.ref_name }}
               
               [View Workflow Run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})
-              [View Commit](https://github.com/${{ github.repository }}/commit/${GITHUB_SHA})
+              [View Commit](https://github.com/${{ github.repository }}/commit/${{ github.sha }})
               
               **Error Details:**
               Please check the workflow run for more details.
