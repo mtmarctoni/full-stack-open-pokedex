@@ -37,10 +37,10 @@ jobs:
             path: playwright-report/
             retention-days: 30
         - name: Trigger Render Deployment
-          if: ${{ github.event_name == 'push' }}
+          if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip')}}
           run: curl https://api.render.com/deploy/srv-${{ secrets.RENDER_SERVICE_ID }}?key=${{ secrets.RENDER_API_KEY }}
     tag_release:
-      if: ${{ github.event_name == 'push' }}
+      if: ${{ github.event_name == 'push' && !contains(github.event.head_commit.message, '#skip')}}
       needs: simple_deployment
       runs-on: ubuntu-22.04
       steps:
